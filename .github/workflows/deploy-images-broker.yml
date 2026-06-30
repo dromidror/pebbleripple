@@ -24,7 +24,7 @@ jobs:
         working-directory: images_broker
         run: npm ci
 
-      - name: Zip package
+      - name: Zip package (including node_modules)
         working-directory: images_broker
         run: zip -r ../deploy.zip .
 
@@ -34,4 +34,4 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Functions
-        run: az functionapp deployment source config-zip --resource-group measurments --name images-broker --src deploy.zip
+        run: az functionapp deployment source config-zip --resource-group DefaultResourceGroup-ILC --name images-broker --src deploy.zip --timeout 300
