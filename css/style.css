@@ -4,11 +4,16 @@
 
 :root {
   --font-logo: 'Erica One', cursive;
+  --font-body: 'Google Sans Flex', system-ui, -apple-system, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+}
+
+body {
+  font-family: var(--font-body);
 }
 
 /* Logo font */
