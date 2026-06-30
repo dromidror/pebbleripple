@@ -1,10 +1,5 @@
-import { app } from "@azure/functions";
-import { StorageSharedKeyCredential, BlobSASPermissions, generateBlobSASQueryParameters } from "@azure/storage-blob";
-
-const AZURE_ACCOUNT_NAME = process.env.AZURE_ACCOUNT_NAME || "";
-const AZURE_ACCOUNT_KEY = process.env.AZURE_ACCOUNT_KEY || "";
-const AZURE_CONTAINER = process.env.AZURE_CONTAINER || "";
-const BROKER_API_KEY = process.env.BROKER_API_KEY || "";
+const { app } = require("@azure/functions");
+const { StorageSharedKeyCredential, BlobSASPermissions, generateBlobSASQueryParameters } = require("@azure/storage-blob");
 
 function sanitizeBlobName(name) {
   const fallback = `upload_${Date.now()}.bin`;
@@ -18,6 +13,11 @@ app.http("uploadSas", {
   route: "storage/upload-sas",
   handler: async (request, context) => {
     try {
+      const AZURE_ACCOUNT_NAME = process.env.AZURE_ACCOUNT_NAME || "";
+      const AZURE_ACCOUNT_KEY = process.env.AZURE_ACCOUNT_KEY || "";
+      const AZURE_CONTAINER = process.env.AZURE_CONTAINER || "";
+      const BROKER_API_KEY = process.env.BROKER_API_KEY || "";
+
       if (!AZURE_ACCOUNT_NAME || !AZURE_ACCOUNT_KEY || !AZURE_CONTAINER) {
         return { status: 500, jsonBody: { error: "Missing Azure configuration" } };
       }
