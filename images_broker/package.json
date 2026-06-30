@@ -2,7 +2,7 @@
   "name": "images-broker",
   "version": "1.0.0",
   "private": true,
-  "main": "src/functions/*.js",
+  "main": "src/functions/index.js",
   "scripts": {
     "start": "func start",
     "build": "echo 'no build step'"
