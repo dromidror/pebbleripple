@@ -57,3 +57,115 @@ footer a:hover {
   color: #0d6efd !important;
   font-weight: 600;
 }
+
+/* ===========================
+   Parallax Sections
+   =========================== */
+
+.parallax-section {
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: #1a252f;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fallback for mobile (iOS doesn't support background-attachment: fixed) */
+@supports (-webkit-touch-callout: none) {
+  .parallax-section {
+    background-attachment: scroll;
+  }
+}
+
+/* Geometric overlays */
+.parallax-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-blue {
+  background: linear-gradient(135deg, rgba(74, 144, 217, 0.3) 0%, rgba(13, 110, 253, 0.15) 100%);
+}
+
+.overlay-purple {
+  background: linear-gradient(135deg, rgba(130, 80, 200, 0.3) 0%, rgba(200, 60, 150, 0.15) 100%);
+}
+
+.overlay-teal {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.3) 0%, rgba(6, 148, 162, 0.15) 100%);
+}
+
+/* Geometric shapes */
+.geo {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Triangle */
+.geo-triangle {
+  width: 0;
+  height: 0;
+  border-left: 80px solid transparent;
+  border-right: 80px solid transparent;
+  border-bottom: 140px solid rgba(255, 255, 255, 0.1);
+  top: 15%;
+  left: 10%;
+}
+
+/* Circle */
+.geo-circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  bottom: 10%;
+  right: 8%;
+}
+
+/* Diamond */
+.geo-diamond {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(45deg);
+  top: 20%;
+  right: 15%;
+}
+
+/* Dot grid */
+.geo-dot-grid {
+  width: 120px;
+  height: 120px;
+  bottom: 15%;
+  left: 10%;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+  background-size: 20px 20px;
+}
+
+/* Hexagon */
+.geo-hexagon {
+  width: 100px;
+  height: 57px;
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: 25%;
+  left: 12%;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+/* Ring */
+.geo-ring {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.12);
+  bottom: 12%;
+  right: 10%;
+  box-shadow: inset 0 0 0 20px rgba(255, 255, 255, 0.04);
+}
