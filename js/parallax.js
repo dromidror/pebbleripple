@@ -4,6 +4,7 @@
   const CONTAINER = 'parallax';
 
   const parallaxImages = [
+    { elementId: 'hero', blobName: 'linus-nylund-Q5QspluNZmM-unsplash.jpg' },
     { elementId: 'parallax1', blobName: 'linus-nylund-Q5QspluNZmM-unsplash.jpg' },
     { elementId: 'parallax2', blobName: 'john-salzarulo-wtjrpjZABcQ-unsplash.jpg' },
     { elementId: 'parallax3', blobName: 'andrew-neel-1-29wyvvLJA-unsplash.jpg' },

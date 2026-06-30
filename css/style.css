@@ -28,6 +28,23 @@ html {
   min-height: 100vh;
   padding-top: 80px;
   background: linear-gradient(135deg, #f8fafc 0%, #e8f4fd 100%);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.75);
+  z-index: 0;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 /* Product cards hover */
