@@ -24,9 +24,14 @@ jobs:
         working-directory: images_broker
         run: npm ci
 
-      - name: Deploy to Azure Functions
-        uses: Azure/functions-action@v1
+      - name: Zip package
+        working-directory: images_broker
+        run: zip -r ../deploy.zip .
+
+      - name: Login to Azure
+        uses: azure/login@v2
         with:
-          app-name: images-broker
-          package: images_broker
-          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Functions
+        run: az functionapp deployment source config-zip --resource-group measurments --name images-broker --src deploy.zip
