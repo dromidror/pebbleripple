@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Environment variables (secrets)
+.env
+local.settings.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+
+# Logs
+*.log
+
+# Azure Functions
+bin/
+obj/

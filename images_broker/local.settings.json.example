@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AZURE_ACCOUNT_NAME": "pebbleripple",
+    "AZURE_ACCOUNT_KEY": "<storage-account-key>",
+    "AZURE_CONTAINER": "parallax",
+    "BROKER_API_KEY": "<optional-api-key>"
+  },
+  "Host": {
+    "CORS": "*"
+  }
+}
