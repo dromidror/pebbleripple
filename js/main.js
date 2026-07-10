@@ -6,9 +6,9 @@ document.getElementById('contactForm').addEventListener('submit', async function
   const success = document.getElementById('formSuccess');
   const submitBtn = this.querySelector('button[type="submit"]');
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const message = document.getElementById('contactMessage').value.trim();
 
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending...';
