@@ -1,6 +1,12 @@
 const { app } = require("@azure/functions");
 const { StorageSharedKeyCredential, BlobSASPermissions, generateBlobSASQueryParameters } = require("@azure/storage-blob");
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, x-api-key",
+};
+
 function sanitizeBlobName(name) {
   const fallback = `upload_${Date.now()}.bin`;
   if (!name || typeof name !== "string") return fallback;
@@ -8,10 +14,14 @@ function sanitizeBlobName(name) {
 }
 
 app.http("uploadSas", {
-  methods: ["POST"],
+  methods: ["POST", "OPTIONS"],
   authLevel: "anonymous",
   route: "storage/upload-sas",
   handler: async (request, context) => {
+    if (request.method === "OPTIONS") {
+      return { status: 204, headers: CORS_HEADERS };
+    }
+
     try {
       const AZURE_ACCOUNT_NAME = process.env.AZURE_ACCOUNT_NAME || "";
       const AZURE_ACCOUNT_KEY = process.env.AZURE_ACCOUNT_KEY || "";
@@ -19,13 +29,13 @@ app.http("uploadSas", {
       const BROKER_API_KEY = process.env.BROKER_API_KEY || "";
 
       if (!AZURE_ACCOUNT_NAME || !AZURE_ACCOUNT_KEY || !AZURE_CONTAINER) {
-        return { status: 500, jsonBody: { error: "Missing Azure configuration" } };
+        return { status: 500, headers: CORS_HEADERS, jsonBody: { error: "Missing Azure configuration" } };
       }
 
       if (BROKER_API_KEY) {
         const clientKey = request.headers.get("x-api-key") || "";
         if (clientKey !== BROKER_API_KEY) {
-          return { status: 401, jsonBody: { error: "Unauthorized" } };
+          return { status: 401, headers: CORS_HEADERS, jsonBody: { error: "Unauthorized" } };
         }
       }
 
@@ -52,6 +62,7 @@ app.http("uploadSas", {
       const blobUrl = `https://${AZURE_ACCOUNT_NAME}.blob.core.windows.net/${AZURE_CONTAINER}/${fileName}`;
 
       return {
+        headers: CORS_HEADERS,
         jsonBody: {
           blobName: fileName,
           blobUrl,
@@ -60,7 +71,7 @@ app.http("uploadSas", {
         },
       };
     } catch (error) {
-      return { status: 500, jsonBody: { error: error.message || String(error) } };
+      return { status: 500, headers: CORS_HEADERS, jsonBody: { error: error.message || String(error) } };
     }
   },
 });

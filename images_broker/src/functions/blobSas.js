@@ -1,11 +1,21 @@
 const { app } = require("@azure/functions");
 const { StorageSharedKeyCredential, BlobSASPermissions, generateBlobSASQueryParameters } = require("@azure/storage-blob");
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, x-api-key",
+};
+
 app.http("blobSas", {
-  methods: ["GET"],
+  methods: ["GET", "OPTIONS"],
   authLevel: "anonymous",
   route: "storage/blob-sas",
   handler: async (request, context) => {
+    if (request.method === "OPTIONS") {
+      return { status: 204, headers: CORS_HEADERS };
+    }
+
     try {
       const AZURE_ACCOUNT_NAME = process.env.AZURE_ACCOUNT_NAME || "";
       const AZURE_ACCOUNT_KEY = process.env.AZURE_ACCOUNT_KEY || "";
@@ -13,19 +23,19 @@ app.http("blobSas", {
       const BROKER_API_KEY = process.env.BROKER_API_KEY || "";
 
       if (!AZURE_ACCOUNT_NAME || !AZURE_ACCOUNT_KEY || !AZURE_CONTAINER) {
-        return { status: 500, jsonBody: { error: "Missing Azure configuration" } };
+        return { status: 500, headers: CORS_HEADERS, jsonBody: { error: "Missing Azure configuration" } };
       }
 
       if (BROKER_API_KEY) {
         const clientKey = request.headers.get("x-api-key") || "";
         if (clientKey !== BROKER_API_KEY) {
-          return { status: 401, jsonBody: { error: "Unauthorized" } };
+          return { status: 401, headers: CORS_HEADERS, jsonBody: { error: "Unauthorized" } };
         }
       }
 
       const blobName = request.query.get("name");
       if (!blobName) {
-        return { status: 400, jsonBody: { error: "Missing 'name' query parameter" } };
+        return { status: 400, headers: CORS_HEADERS, jsonBody: { error: "Missing 'name' query parameter" } };
       }
 
       const containerName = request.query.get("container") || AZURE_CONTAINER;
@@ -50,6 +60,7 @@ app.http("blobSas", {
       const blobUrl = `https://${AZURE_ACCOUNT_NAME}.blob.core.windows.net/${containerName}/${blobName}`;
 
       return {
+        headers: CORS_HEADERS,
         jsonBody: {
           blobName,
           downloadUrl: `${blobUrl}?${sas}`,
@@ -57,7 +68,7 @@ app.http("blobSas", {
         },
       };
     } catch (error) {
-      return { status: 500, jsonBody: { error: error.message || String(error) } };
+      return { status: 500, headers: CORS_HEADERS, jsonBody: { error: error.message || String(error) } };
     }
   },
 });
