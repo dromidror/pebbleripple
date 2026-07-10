@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@azure/functions": "^4.16.1",
-    "@azure/storage-blob": "^12.25.0"
+    "@azure/storage-blob": "^12.25.0",
+    "nodemailer": "^9.0.3"
   }
 }
